@@ -3,49 +3,18 @@ package nachhilfe;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.Arrays;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Scanner;
 
 public class GDI_Blatt_4_A_3 {
-		
-	public static List<Integer> sortAscending(List<Integer> a) {
-		List<Integer> copy = new LinkedList<>(a);
-		List<Integer> out = new LinkedList<>();
-		while(!copy.isEmpty()) {
-			int min = Integer.MAX_VALUE;
-			int pos = -1;
-			for(int i = 0; i < copy.size(); i++) {
-				if(copy.get(i) < min) {
-					min = copy.get(i);
-					pos = i;
-				}
-			}
-			out.add(min);
-			copy.remove(pos);
-		}
-
-		return out;
-	}
 	
-	public static List<Integer> sortDescending(List<Integer> a) {
-		List<Integer> copy = new LinkedList<>(a);
-		List<Integer> out = new LinkedList<>();
-		while(!copy.isEmpty()) {
-			int max = Integer.MIN_VALUE;
-			int pos = -1;
-			for(int i = 0; i < copy.size(); i++) {
-				if(copy.get(i) > max) {
-					max = copy.get(i);
-					pos = i;
-				}
-			}
-			out.add(max);
-			copy.remove(pos);
-		}
+	public static Comparator<Integer> descending = (s1, s2) -> { return s1 < s2 ? 1 : -1; };
+	public static Comparator<Integer> ascending = (s1, s2) -> { return s1 > s2 ? 1 : -1; };
+	public static Comparator<Integer> comp3 = (s1, s2) -> { return s1 % 2 == 0 ? (s2 % 2 == 0 ? (s1 > s2 ? 1 : -1) : -1) : (s2 % 2 == 1 ? (s1 > s2 ? 1 : -1) : 1); };
 
-		return out;
-	}
 	
 	public static void main(String[] args) {
 	    List<Integer> a = new LinkedList<>();
@@ -54,6 +23,7 @@ public class GDI_Blatt_4_A_3 {
 		    Scanner readFilePath = new Scanner(System.in);
 		    String path = readFilePath.next();
 		    readFilePath.close();
+		    path = "C:\\Users\\Luenz\\file.txt";
 			File myObj = new File(path);
 			Scanner in = new Scanner(myObj);		      
 			while (in.hasNextLine()) {
@@ -68,8 +38,13 @@ public class GDI_Blatt_4_A_3 {
 			e.printStackTrace();
 		}
 		
-		System.out.println(Arrays.toString(sortAscending(a).toArray()));
-		System.out.println(Arrays.toString(sortDescending(a).toArray()));
+		
+		Collections.sort(a, ascending);
+		System.out.println(Arrays.toString(a.toArray()));
+		Collections.sort(a, descending);
+		System.out.println(Arrays.toString(a.toArray()));
+		Collections.sort(a, comp3);
+		System.out.println(Arrays.toString(a.toArray()));
 	}
 
 }
